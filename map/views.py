@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.template import context
 from .models import Measurement
+from .forms import MeasurmentsForm
 
 # def default_map(request):
 #     # TODO: move this token to Django settings from an environment variable
@@ -12,7 +13,8 @@ from .models import Measurement
 
 def calculate_distance_view(request):
     obj = get_object_or_404(Measurement, id = 1)
+    form = MeasurmentsForm(request.POST or None)
 
-    context = {'distance': obj}
+    context = {'distance': obj, 'form': form,}
 
     return render(request, 'map/main.html', context)
