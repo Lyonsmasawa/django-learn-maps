@@ -15,6 +15,13 @@ def calculate_distance_view(request):
     obj = get_object_or_404(Measurement, id = 1)
     form = MeasurmentsForm(request.POST or None)
 
+    if form.is_valid():
+        instance = form.save(commit=False)
+        instance.destination = form.cleaned_data.get('destination')
+        instance.location = 'rongai'
+        instance.distance = 500.00
+        instance.save()
+
     context = {'distance': obj, 'form': form,}
 
     return render(request, 'map/main.html', context)
