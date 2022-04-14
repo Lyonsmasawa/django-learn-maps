@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from .models import Measurement
 from .forms import MeasurmentsForm
 from geopy.geocoders import Nominatim
-from .utils import get_geo, get_center_coordinates, get_zoom
+from .utils import get_geo, get_center_coordinates, get_zoom, get_ip_address
 from geopy.distance import geodesic
 import folium
 
@@ -21,6 +21,9 @@ def calculate_distance_view(request):
     geolocator = Nominatim(user_agent='map')
     destination = None
 
+    ip_ = get_ip_address(request)
+    print(ip_)    
+    
     ip = '72.14.207.99'
     country, city, lat, lon = get_geo(ip)
     # print('location country', country)
