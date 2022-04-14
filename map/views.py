@@ -4,6 +4,7 @@ from .models import Measurement
 from .forms import MeasurmentsForm
 from geopy.geocoders import Nominatim
 from .utils import get_geo
+from geopy.distance import geodesic
 
 # def default_map(request):
 #     # TODO: move this token to Django settings from an environment variable
@@ -20,22 +21,34 @@ def calculate_distance_view(request):
 
     ip = '72.14.207.99'
     country, city, lat, lon = get_geo(ip)
-    print('location country', country)
-    print('location city', city)
-    print('location lat, lon', lat, lon)
+    # print('location country', country)
+    # print('location city', city)
+    # print('location lat, lon', lat, lon)
+
+    location = geolocator.geocode(city)
+    # print('###', location)
+
+    l_lat = lat
+    l_lon = lon
+
+    pointA = (l_lat, l_lon)
 
 
     if form.is_valid():
         instance = form.save(commit=False)
         destination_ = form.cleaned_data.get('destination')
         destination = geolocator.geocode(destination_)
-        print(destination)
+        # print(destination)
         d_lat = destination.latitude
         d_lon = destination.longitude
 
-        instance.location = 'rongai'
-        instance.distance = 500.00
-        # instance.save()
+        pointB = (d_lat, d_lon)
+
+        distance = round(geodesic(pointA, pointB).km, 2)
+
+        instance.location = location
+        instance.distance = distance
+        instance.save()
 
     context = {'distance': obj, 'form': form,}
 
