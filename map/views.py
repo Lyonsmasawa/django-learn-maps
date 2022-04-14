@@ -15,7 +15,7 @@ from geopy.distance import geodesic
 #                   { 'mapbox_access_token': mapbox_access_token })
 
 def calculate_distance_view(request):
-    obj = get_object_or_404(Measurement, id = 1)
+    obj = get_object_or_404(Measurement, id = 3)
     form = MeasurmentsForm(request.POST or None)
     geolocator = Nominatim(user_agent='map')
 
