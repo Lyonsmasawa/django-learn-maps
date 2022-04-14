@@ -58,6 +58,11 @@ def calculate_distance_view(request):
         distance = round(geodesic(pointA, pointB).km, 2)
 
         #folium map modification
+        m = folium.Map(width=800, height=500, location=pointA)
+
+        #destination marker
+        folium.Marker([d_lat, d_lon], tooltip='Click here for more', popup=destination,
+            icon=folium.Icon(color='red', icon='cloud')).add_to(m)
 
 
         instance.location = location
