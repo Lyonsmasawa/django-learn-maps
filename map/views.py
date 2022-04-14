@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.template import context
 from .models import Measurement
 from .forms import MeasurmentsForm
+from geopy.geocoders import Nominatim
 
 # def default_map(request):
 #     # TODO: move this token to Django settings from an environment variable
@@ -14,13 +15,17 @@ from .forms import MeasurmentsForm
 def calculate_distance_view(request):
     obj = get_object_or_404(Measurement, id = 1)
     form = MeasurmentsForm(request.POST or None)
+    geolocator = Nominatim(user_agent='measurements')
 
     if form.is_valid():
         instance = form.save(commit=False)
-        instance.destination = form.cleaned_data.get('destination')
+        destination_ = form.cleaned_data.get('destination')
+        destination = geolocator.geocode(destination_)
+        print(destination)
+
         instance.location = 'rongai'
         instance.distance = 500.00
-        instance.save()
+        # instance.save()
 
     context = {'distance': obj, 'form': form,}
 
