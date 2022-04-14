@@ -24,14 +24,16 @@ def calculate_distance_view(request):
     # print('location country', country)
     # print('location city', city)
     # print('location lat, lon', lat, lon)
-
-    location = geolocator.geocode(city)
+    location = geolocator.geocode(city) #shortens the response
     # print('###', location)
 
+    # location distance
     l_lat = lat
     l_lon = lon
 
     pointA = (l_lat, l_lon)
+
+    # innitial folium map
 
 
     if form.is_valid():
@@ -39,12 +41,18 @@ def calculate_distance_view(request):
         destination_ = form.cleaned_data.get('destination')
         destination = geolocator.geocode(destination_)
         # print(destination)
+
+        # desitination coordinates
         d_lat = destination.latitude
         d_lon = destination.longitude
 
         pointB = (d_lat, d_lon)
 
+        # distance calculation
         distance = round(geodesic(pointA, pointB).km, 2)
+
+        #folium map modification
+
 
         instance.location = location
         instance.distance = distance
