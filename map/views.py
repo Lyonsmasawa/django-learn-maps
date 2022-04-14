@@ -22,6 +22,8 @@ def calculate_distance_view(request):
         destination_ = form.cleaned_data.get('destination')
         destination = geolocator.geocode(destination_)
         print(destination)
+        print(destination.latitude)
+        print(destination.longitude)
 
         instance.location = 'rongai'
         instance.distance = 500.00
