@@ -3,6 +3,7 @@ from django.template import context
 from .models import Measurement
 from .forms import MeasurmentsForm
 from geopy.geocoders import Nominatim
+from .utils import get_geo
 
 # def default_map(request):
 #     # TODO: move this token to Django settings from an environment variable
@@ -16,6 +17,13 @@ def calculate_distance_view(request):
     obj = get_object_or_404(Measurement, id = 1)
     form = MeasurmentsForm(request.POST or None)
     geolocator = Nominatim(user_agent='map')
+
+    ip = '72.14.207.99'
+    country, city, lat, lon = get_geo(ip)
+    print('location country', country)
+    print('location city', city)
+    print('location lat, lon', lat, lon)
+
 
     if form.is_valid():
         instance = form.save(commit=False)
