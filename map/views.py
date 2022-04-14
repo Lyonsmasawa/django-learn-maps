@@ -5,6 +5,7 @@ from .forms import MeasurmentsForm
 from geopy.geocoders import Nominatim
 from .utils import get_geo
 from geopy.distance import geodesic
+import folium
 
 # def default_map(request):
 #     # TODO: move this token to Django settings from an environment variable
@@ -34,6 +35,11 @@ def calculate_distance_view(request):
     pointA = (l_lat, l_lon)
 
     # innitial folium map
+    m = folium.Map(width=800, height=500, location=pointA)
+
+    #location marker
+    folium.Marker([l_lat, l_lon], tooltip='Click here for more', popup=city['city'],
+         icon=folium.Icon(color='purple')).add_to(m)
 
 
     if form.is_valid():
@@ -58,6 +64,8 @@ def calculate_distance_view(request):
         instance.distance = distance
         instance.save()
 
-    context = {'distance': obj, 'form': form,}
+    m = m._repr_html_() #html representation
+
+    context = {'distance': obj, 'form': form, 'map': m, }
 
     return render(request, 'map/main.html', context)

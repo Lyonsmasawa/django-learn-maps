@@ -8,9 +8,7 @@ Calculate distance
 
 
 {% block content %}
-{{distance}}
-
-<hr>
+{{map | safe}}
 
 <form action="" method="post" autocomplete="off">
     {% csrf_token %}
