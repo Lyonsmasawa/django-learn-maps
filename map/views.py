@@ -15,15 +15,15 @@ from geopy.geocoders import Nominatim
 def calculate_distance_view(request):
     obj = get_object_or_404(Measurement, id = 1)
     form = MeasurmentsForm(request.POST or None)
-    geolocator = Nominatim(user_agent='measurements')
+    geolocator = Nominatim(user_agent='map')
 
     if form.is_valid():
         instance = form.save(commit=False)
         destination_ = form.cleaned_data.get('destination')
         destination = geolocator.geocode(destination_)
         print(destination)
-        print(destination.latitude)
-        print(destination.longitude)
+        d_lat = destination.latitude
+        d_lon = destination.longitude
 
         instance.location = 'rongai'
         instance.distance = 500.00
